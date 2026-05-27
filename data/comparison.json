@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "title": "Kubernetes vs Docker Swarm: Container Orchestration Comparison",
+    "description": "Structured comparison of Kubernetes and Docker Swarm for container orchestration across scalability, operational complexity, ecosystem, and production readiness.",
+    "version": "1.0.0",
+    "updated": "2026-05-26",
+    "source": "https://swifttechco.com/comparisons/kubernetes-vs-docker-swarm"
+  },
+  "platforms": {
+    "kubernetes": {
+      "name": "Kubernetes",
+      "alias": "K8s",
+      "vendor": "CNCF (Google origin)",
+      "license": "Apache-2.0",
+      "initial_release": 2014,
+      "latest_stable": "1.30.x",
+      "website": "https://kubernetes.io",
+      "managed_offerings": ["GKE", "EKS", "AKS", "DigitalOcean Kubernetes", "Rancher"]
+    },
+    "docker_swarm": {
+      "name": "Docker Swarm",
+      "vendor": "Docker Inc.",
+      "license": "Apache-2.0",
+      "initial_release": 2015,
+      "latest_stable": "Bundled with Docker Engine 25.x",
+      "website": "https://docs.docker.com/engine/swarm/",
+      "managed_offerings": []
+    }
+  },
+  "dimensions": [
+    {
+      "name": "Setup complexity",
+      "kubernetes":    { "rating": 2, "notes": "High complexity; kubeadm, kubectl, control plane setup; managed options (GKE/EKS) ease this significantly" },
+      "docker_swarm":  { "rating": 5, "notes": "docker swarm init; docker stack deploy; operational in minutes on existing Docker hosts" }
+    },
+    {
+      "name": "Learning curve",
+      "kubernetes":    { "rating": 2, "notes": "Steep; Pods, Deployments, Services, Ingress, ConfigMaps, RBAC, Helm; significant investment" },
+      "docker_swarm":  { "rating": 5, "notes": "Docker Compose syntax familiar; services, stacks, secrets map naturally from existing Docker knowledge" }
+    },
+    {
+      "name": "Scalability",
+      "kubernetes":    { "rating": 5, "notes": "Proven at Google/Netflix/Spotify scale; horizontal pod autoscaling, cluster autoscaling, 5,000 node clusters" },
+      "docker_swarm":  { "rating": 3, "notes": "Handles hundreds of nodes; adequate for most SMBs; not battle-tested at hyperscale" }
+    },
+    {
+      "name": "High availability",
+      "kubernetes":    { "rating": 5, "notes": "Multi-master etcd cluster; pod disruption budgets; rolling updates; self-healing" },
+      "docker_swarm":  { "rating": 4, "notes": "Raft consensus for manager HA; service restart on failure; less granular control" }
+    },
+    {
+      "name": "Ecosystem and tooling",
+      "kubernetes":    { "rating": 5, "notes": "Helm, Kustomize, ArgoCD, Istio, Prometheus, Grafana; dominant CNCF ecosystem" },
+      "docker_swarm":  { "rating": 2, "notes": "Minimal third-party tooling; Docker Compose and Docker CLI; no Helm equivalent" }
+    },
+    {
+      "name": "Networking",
+      "kubernetes":    { "rating": 5, "notes": "CNI plugins (Calico, Flannel, Cilium); NetworkPolicies; Ingress controllers; service mesh support" },
+      "docker_swarm":  { "rating": 3, "notes": "Overlay networks built-in; simpler but less configurable; no NetworkPolicy equivalent" }
+    },
+    {
+      "name": "Storage management",
+      "kubernetes":    { "rating": 5, "notes": "PersistentVolumes, StorageClasses, CSI plugins; dynamic provisioning; stateful workloads" },
+      "docker_swarm":  { "rating": 3, "notes": "Volumes work but complex for distributed storage; fewer native options for stateful apps" }
+    },
+    {
+      "name": "Security features",
+      "kubernetes":    { "rating": 5, "notes": "RBAC, PSA, OPA/Gatekeeper, Secrets encryption at rest, NetworkPolicy, mTLS via Istio" },
+      "docker_swarm":  { "rating": 3, "notes": "Secrets management, TLS auto-rotation for manager comms; limited RBAC; no policy engine" }
+    },
+    {
+      "name": "CI/CD integration",
+      "kubernetes":    { "rating": 5, "notes": "Native to GitOps (ArgoCD, Flux); all major CI tools have K8s deployment plugins" },
+      "docker_swarm":  { "rating": 3, "notes": "Works with CI tools via docker stack deploy; less ecosystem support than K8s" }
+    },
+    {
+      "name": "Observability",
+      "kubernetes":    { "rating": 5, "notes": "Prometheus + Grafana standard stack; distributed tracing via OpenTelemetry; structured logging" },
+      "docker_swarm":  { "rating": 2, "notes": "Basic docker service logs; no native metrics; requires external tools with less integration" }
+    },
+    {
+      "name": "Community and long-term support",
+      "kubernetes":    { "rating": 5, "notes": "CNCF graduated project; thousands of contributors; 10-year industry standard trajectory" },
+      "docker_swarm":  { "rating": 2, "notes": "Docker Inc. reduced investment; community maintenance mode; Mirantis acquired Docker; uncertain future" }
+    },
+    {
+      "name": "Operational cost",
+      "kubernetes":    { "rating": 2, "notes": "High: control plane cost on managed ($70 to $200+/mo on EKS/GKE) + engineering time" },
+      "docker_swarm":  { "rating": 5, "notes": "No control plane overhead; runs on existing VMs; minimal operational burden" }
+    }
+  ],
+  "use_case_recommendations": [
+    {
+      "use_case": "Small team, simple microservices (under 20 services)",
+      "recommendation": "docker_swarm",
+      "reason": "Lower overhead, faster setup, sufficient for most SMB production workloads"
+    },
+    {
+      "use_case": "Enterprise production platform requiring SLA",
+      "recommendation": "kubernetes",
+      "reason": "Battle-tested HA, RBAC, autoscaling, and ecosystem make it the production standard"
+    },
+    {
+      "use_case": "Rapid prototype or staging environment",
+      "recommendation": "docker_swarm",
+      "reason": "Mirrors production compose files; fast iteration; no cloud control plane cost"
+    },
+    {
+      "use_case": "Multi-tenant SaaS platform",
+      "recommendation": "kubernetes",
+      "reason": "Namespace isolation, NetworkPolicies, and RBAC enable secure tenant separation"
+    },
+    {
+      "use_case": "Team already using Docker Compose",
+      "recommendation": "docker_swarm",
+      "reason": "Minimal migration effort; Compose files translate directly to Swarm stacks"
+    },
+    {
+      "use_case": "Regulated industry (fintech, healthcare)",
+      "recommendation": "kubernetes",
+      "reason": "Richer security primitives; audit logging; policy enforcement via OPA; managed K8s compliance certs"
+    }
+  ],
+  "resource_requirements": {
+    "kubernetes": {
+      "minimum_nodes": 3,
+      "control_plane_nodes": "1 to 3 (HA)",
+      "minimum_ram_per_node_gb": 2,
+      "recommended_ram_per_node_gb": 8
+    },
+    "docker_swarm": {
+      "minimum_nodes": 1,
+      "manager_nodes": "1 to 3 (HA)",
+      "minimum_ram_per_node_gb": 1,
+      "recommended_ram_per_node_gb": 4
+    }
+  }
+}
